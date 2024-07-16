@@ -11,15 +11,15 @@ export default class TwilioService extends Twilio implements LeadExternal {
     super(accountSid, authToken);
   }
   async sendMsg({
-    message,
+    name,
     phone,
   }: {
-    message: string;
+    name: string;
     phone: string;
   }): Promise<any> {
     try{
         const parsePhone = `+${phone}`
-        const mapMsg = { body: message, to: parsePhone, from:fromNumber };
+        const mapMsg = { body: name, to: parsePhone, from:fromNumber };
         const response = await this.messages.create(mapMsg);
         return response
     }catch(e){

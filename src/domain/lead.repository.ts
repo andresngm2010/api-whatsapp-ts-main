@@ -6,10 +6,10 @@ import { Lead } from "./lead";
  */
 export default interface LeadRepository {
   save({
-    message,
+    name,
     phone,
   }: {
-    message: string;
+    name: string;
     phone: string;
   }): Promise<Lead | undefined | null>;
   getDetail(id:string):Promise<Lead | null | undefined>

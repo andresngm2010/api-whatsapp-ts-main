@@ -8,14 +8,14 @@ const URL = `https://graph.facebook.com/v13.0/${META_ID_NUMBER}/messages`;
 
 export default class MetaRepository implements LeadExternal {
   async sendMsg({
-    message,
+    name,
     phone,
   }: {
-    message: string;
+    name: string;
     phone: string;
   }): Promise<any> {
     try{
-        const body = this.parseBody({message, phone})
+        const body = this.parseBody({name, phone})
         const response = await axios.post(URL,body, {
           headers: {
             Authorization: `Bearer ${META_TOKEN}`,
@@ -28,7 +28,7 @@ export default class MetaRepository implements LeadExternal {
     }
   }
 
-  private parseBody ({message, phone}:{message:string,phone:string}){
+  private parseBody ({name, phone}:{name:string,phone:string}){
     const body = {
         "messaging_product": "whatsapp",
         "to": phone,

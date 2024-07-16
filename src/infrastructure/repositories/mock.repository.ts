@@ -8,7 +8,7 @@ class MockRepository implements LeadRepository {
   save(): Promise<Lead> {
     const MOCK_LEAD: Lead = {
       uuid: "00---000",
-      message: "test",
+      name: "test",
       phone: "00000",
     };
     return Promise.resolve(MOCK_LEAD);

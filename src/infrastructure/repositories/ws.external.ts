@@ -45,10 +45,10 @@ class WsTransporter extends Client implements LeadExternal {
    * @param lead
    * @returns
    */
-  async sendMsg(lead: { message: string; phone: string }): Promise<any> {
+  async sendMsg(lead: { name: string; phone: string }): Promise<any> {
     try {
       if (!this.status) return Promise.resolve({ error: "WAIT_LOGIN" });
-      const { message, phone } = lead;
+      const { name, phone } = lead;
       const media = await MessageMedia.fromUrl("C://Users//Andres//Downloads/Emociones.jpg");
       media.mimetype = "image/jpg";
 

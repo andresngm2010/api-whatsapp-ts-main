@@ -1,6 +1,11 @@
 import { ContainerBuilder } from "node-dependency-injection";
 import { LeadCreate } from "../application/lead.create";
 import LeadCtrl from "./controller/lead.ctrl";
+
+import { MassiveCreate } from "../application/massive.create";
+import MassiveCtrl from "./controller/massive.ctrl";
+
+
 import MetaRepository from "./repositories/meta.repository";
 import MockRepository from "./repositories/mock.repository";
 import TwilioService from "./repositories/twilio.repository";
@@ -19,11 +24,11 @@ container.register("db.repository", MockRepository);
 const dbRepository = container.get("db.repository");
 
 container
-  .register("lead.creator", LeadCreate)
+  .register("massive.creator", MassiveCreate)
   .addArgument([dbRepository, wsTransporter]);
 
-const leadCreator = container.get("lead.creator");
+const massiveCreator = container.get("massive.creator");
 
-container.register("lead.ctrl", LeadCtrl).addArgument(leadCreator);
+container.register("massive.ctrl", MassiveCtrl).addArgument(massiveCreator);
 
 export default container;
