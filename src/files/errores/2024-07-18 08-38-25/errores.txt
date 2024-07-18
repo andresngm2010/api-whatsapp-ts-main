@@ -1,0 +1,1 @@
+Error al enviar el mensaje a 593XXX: incorrect parameters! Use as an example: 000000000000@c.us

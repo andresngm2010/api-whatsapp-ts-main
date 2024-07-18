@@ -6,7 +6,18 @@ class MassiveCtrl {
 
   public sendCtrl = async ( req: Request, res: Response) => {
     const response = await this.massiveCreator.sendMessageAndSave()
-    res.send(response);
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Mi Página HTML</title>
+      </head>
+      <body>
+        ${response.responseExSave}
+      </body>
+      </html>
+    `;
+    res.send(htmlContent);
   };
 }
 

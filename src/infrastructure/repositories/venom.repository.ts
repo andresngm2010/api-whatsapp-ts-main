@@ -58,14 +58,14 @@ export class VenomTransporter implements MassiveExternal {
                 `${number}@c.us`,
                 eval("`"+mensaje+"`")
               )
-            } else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
+            } /*else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
               await this.intance?.sendFile(
                 `${number}@c.us`,
                 directorio,
                 nombreArchivo,
                 eval("`"+mensaje+"`")
               )
-            }
+            }*/
           } catch (error) {
             bandera = false;
             throw error; 
@@ -90,7 +90,7 @@ export class VenomTransporter implements MassiveExternal {
       fs.writeFileSync(erroresPath, errores.join('\n'), 'utf8');
     }
 
-    response = `El resultado del envío es el siguiente: Correctos = ${correctas} Fallidas = ${fallidas}`;
+    response = `<html><h1>El resultado del envío es el siguiente: Correctos = ${correctas} Fallidas = ${fallidas}</h1></html>`;
 
     return Promise.resolve(response);
 
