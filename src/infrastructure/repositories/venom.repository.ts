@@ -40,8 +40,9 @@ export class VenomTransporter implements MassiveExternal {
     }
 
     for (const row of data) {
-      const number = cleanString(row.Phone);
+      const phone = cleanString(row.Phone);
       const name = row.Name;
+      const lastname = row.Lastname;
       let bandera = true;
     
       try {
@@ -55,17 +56,17 @@ export class VenomTransporter implements MassiveExternal {
           try {
             if (tipo === 'Texto') {
               await this.intance?.sendText(
-                `${number}@c.us`,
+                `${phone}@c.us`,
                 eval("`"+mensaje+"`")
               )
-            } /*else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
+            } else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
               await this.intance?.sendFile(
-                `${number}@c.us`,
+                `${phone}@c.us`,
                 directorio,
                 nombreArchivo,
                 eval("`"+mensaje+"`")
               )
-            }*/
+            }
           } catch (error) {
             bandera = false;
             throw error; 
@@ -76,10 +77,8 @@ export class VenomTransporter implements MassiveExternal {
           correctas++;
         }
       } catch (error:any) {
-        //console.error('Se produjo un error durante el envío:', error);
         fallidas++;
-        errores.push(`Error al enviar el mensaje a ${number}: ${error.text}`);
-        // Puedes manejar el error global aquí si es necesario
+        errores.push(`Error al enviar el mensaje a ${phone}: ${error.text} \n`);
       }
     };
 
@@ -87,7 +86,7 @@ export class VenomTransporter implements MassiveExternal {
       const errorDirectory = `./src/files/errores/${safeTimestamp}`;
       fs.mkdirSync(errorDirectory, { recursive: true });
       const erroresPath = path.join(errorDirectory, 'errores.txt');
-      fs.writeFileSync(erroresPath, errores.join('\n'), 'utf8');
+      fs.writeFileSync(erroresPath, errores.join(''), 'utf8');
     }
 
     response = `<html><h1>El resultado del envío es el siguiente: Correctos = ${correctas} Fallidas = ${fallidas}</h1></html>`;
