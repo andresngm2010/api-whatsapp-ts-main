@@ -27,8 +27,14 @@ container
   .register("massive.creator", MassiveCreate)
   .addArgument([dbRepository, wsTransporter]);
 
+container
+  .register("lead.creator")
+  .addArgument([dbRepository, wsTransporter]);
+
 const massiveCreator = container.get("massive.creator");
+const leadCreator = container.get("lead.creator");
 
 container.register("massive.ctrl", MassiveCtrl).addArgument(massiveCreator);
+container.register("lead.ctrl", LeadCtrl).addArgument(leadCreator);
 
 export default container;

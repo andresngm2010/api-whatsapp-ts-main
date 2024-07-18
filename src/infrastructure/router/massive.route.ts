@@ -4,9 +4,9 @@ import container from "../ioc";
 const router: Router = Router();
 
 /**
- * http://localhost/lead POST
+ * http://localhost/massive GET
  */
 const massiveCtrl: MassiveCtrl = container.get("massive.ctrl");
-router.post("/", massiveCtrl.sendCtrl);
+router.get("/", massiveCtrl.sendCtrl);
 
 export { router };

@@ -1,0 +1,1 @@
+Error al enviar el mensaje a 0987329687: The number does not exist

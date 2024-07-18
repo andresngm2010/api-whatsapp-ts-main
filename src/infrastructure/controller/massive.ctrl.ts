@@ -4,9 +4,8 @@ import { MassiveCreate } from "../../application/massive.create";
 class MassiveCtrl {
   constructor(private readonly massiveCreator: MassiveCreate) {}
 
-  public sendCtrl = async ({ body }: Request, res: Response) => {
-    const { names, phones, link } = body;
-    const response = await this.massiveCreator.sendMessageAndSave({ names, phones, link })
+  public sendCtrl = async ( req: Request, res: Response) => {
+    const response = await this.massiveCreator.sendMessageAndSave()
     res.send(response);
   };
 }

@@ -1,0 +1,2 @@
+Error al enviar el mensaje a 593XXX: undefined
+Error al enviar el mensaje a 5343907897789371289371289: undefined

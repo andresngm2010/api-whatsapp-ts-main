@@ -10,17 +10,9 @@ export class MassiveCreate {
     this.massiveExternal = massiveExternal;
   }
 
-  public async sendMessageAndSave({
-    names,
-    phones,
-    link,
-  }: {
-    names: string[];
-    phones: string[];
-    link:string;
-  }) {
-    const responseDbSave = await this.massiveRepository.save({ names, phones, link });//TODO DB
-    const responseExSave = await this.massiveExternal.sendMsg({ names, phones, link });//TODO enviar a ws
+  public async sendMessageAndSave() {
+    const responseDbSave = await this.massiveRepository.save();//TODO DB
+    const responseExSave = await this.massiveExternal.sendMsg();//TODO enviar a ws
     return {responseDbSave, responseExSave};
   }
 }
