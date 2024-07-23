@@ -62,6 +62,8 @@ class MassiveCtrl {
       fs.writeFileSync(erroresPath, errores.join(''), 'utf8');
     }
 
+    res.write('data: {"message": "Envio de mensajes terminado"}\n\n');
+
     req.on('close', () => {
       res.end();
     });
