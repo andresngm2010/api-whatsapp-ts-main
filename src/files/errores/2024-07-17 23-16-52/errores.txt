@@ -1,2 +1,0 @@
-Error al enviar el mensaje a 593XXX: incorrect parameters! Use as an example: 000000000000@c.us
-Error al enviar el mensaje a 5343907897789371289371289: The number does not exist

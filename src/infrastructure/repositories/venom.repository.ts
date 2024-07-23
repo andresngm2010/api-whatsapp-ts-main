@@ -1,6 +1,4 @@
 import { image as imageQr } from "qr-image";
-import * as fs from 'fs';
-import * as path from 'path';
 import LeadExternal from "../../domain/lead-external.repository";
 import data from "../../application/readExcel";
 import template from "../../application/readTemplate";
@@ -16,20 +14,10 @@ export class VenomTransporter implements MassiveExternal {
     create({ session: "session" }).then((client) => (this.intance = client));
   }
 
-  async sendMsg(): Promise<any> {
+  async sendMsg(cel:string, nombre:string, apellido:string, errores:string[]): Promise<any> {
     let response = "";
-    let fallidas = 0;
-    let correctas = 0;
-    const errores: string[] = [];
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    const safeTimestamp = timestamp.replace(/:/g, '-');
+    //let fallidas = 0;
+    //let correctas = 0;
 
     function cleanString(input: string): string {
       // Eliminar paréntesis, signos + y espacios
@@ -39,58 +27,56 @@ export class VenomTransporter implements MassiveExternal {
       return step2;
     }
 
-    for (const row of data) {
-      const phone = cleanString(row.Phone);
-      const name = row.Name;
-      const lastname = row.Lastname;
-      let bandera = true;
+    const phone = cleanString(cel);
+    const name = nombre;
+    const lastname = apellido;
+
+    let bandera = true;
     
-      try {
-        for (const templateRow of template) {
-          const tipo = templateRow.Tipo;
-          const mensaje = `${templateRow.Mensaje}`;
-          const directorio = templateRow.Directorio;
-          const nombreArchivo = templateRow.NombreArchivo;
-          bandera = true;
+    try {
+      for (const templateRow of template) {
+        const tipo = templateRow.Tipo;
+        const mensaje = `${templateRow.Mensaje}`;
+        const directorio = templateRow.Directorio;
+        const nombreArchivo = templateRow.NombreArchivo;
+        bandera = true;
     
-          try {
-            if (tipo === 'Texto') {
-              await this.intance?.sendText(
-                `${phone}@c.us`,
-                eval("`"+mensaje+"`")
-              )
-            } else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
-              await this.intance?.sendFile(
-                `${phone}@c.us`,
-                directorio,
-                nombreArchivo,
-                eval("`"+mensaje+"`")
-              )
-            }
-          } catch (error) {
-            bandera = false;
-            throw error; 
+        try {
+          if (tipo === 'Texto') {
+            await this.intance?.sendText(
+              `${phone}@c.us`,
+              eval("`"+mensaje+"`")
+            )
+          } else if (tipo === 'Imagen' || tipo === 'Video' || tipo === 'Archivo') {
+            await this.intance?.sendFile(
+              `${phone}@c.us`,
+              directorio,
+              nombreArchivo,
+              eval("`"+mensaje+"`")
+            )
           }
-        };
-    
-        if (bandera) {
-          correctas++;
+        } catch (error:any) {
+          bandera = false;
+          errores.push(`Error al enviar el mensaje a ${phone}: ${error.text} \n`);
+          response = `Error al enviar el mensaje a ${phone}: ${error.text}`
+          return Promise.reject(error);
         }
-      } catch (error:any) {
-        fallidas++;
-        errores.push(`Error al enviar el mensaje a ${phone}: ${error.text} \n`);
+      };
+  
+      if (bandera) {
+        //correctas++;
       }
-    };
-
-    if (errores.length > 0) {
-      const errorDirectory = `./src/files/errores/${safeTimestamp}`;
-      fs.mkdirSync(errorDirectory, { recursive: true });
-      const erroresPath = path.join(errorDirectory, 'errores.txt');
-      fs.writeFileSync(erroresPath, errores.join(''), 'utf8');
+    } catch (error:any) {
+      //fallidas++;
+      errores.push(`Error al enviar el mensaje a ${phone}: ${error.text} \n`);
+      response = `Error al enviar el mensaje a ${phone}: ${error.text}`
+      return Promise.reject(error);
     }
+  //};
 
-    response = `<html><h1>El resultado del envío es el siguiente: Correctos = ${correctas} Fallidas = ${fallidas}</h1></html>`;
+    //response = `<html><h1>El resultado del envío es el siguiente: Correctos = ${correctas} Fallidas = ${fallidas}</h1></html>`;
 
+    response = `Exito al enviar el mensaje a ${phone}`
     return Promise.resolve(response);
 
   }

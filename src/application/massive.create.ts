@@ -10,9 +10,9 @@ export class MassiveCreate {
     this.massiveExternal = massiveExternal;
   }
 
-  public async sendMessageAndSave() {
+  public async sendMessageAndSave(cel: string, nombre:string, apellido:string, errores:string[]) {
     const responseDbSave = await this.massiveRepository.save();//TODO DB
-    const responseExSave = await this.massiveExternal.sendMsg();//TODO enviar a ws
+    const responseExSave = await this.massiveExternal.sendMsg(cel, nombre, apellido, errores);//TODO enviar a ws
     return {responseDbSave, responseExSave};
   }
 }

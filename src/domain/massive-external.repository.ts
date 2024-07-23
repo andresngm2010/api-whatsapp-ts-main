@@ -1,3 +1,3 @@
 export default interface MassiveExternal {
-    sendMsg():Promise<any>
+    sendMsg(cel:string, nombre:string, apellido:string, errores:string[]):Promise<any>
 }

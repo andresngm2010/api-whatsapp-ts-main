@@ -7,7 +7,7 @@ interface RowTemplate {
   NombreArchivo: string;
 }
 
-const workbook = xlsx.readFile('./src/files/plantillas/campañaIntesamente.xlsx');
+const workbook = xlsx.readFile('./src/files/plantillas/campañaIntensamente.xlsx');
 
 const sheetName = workbook.SheetNames[0];
 const worksheet = workbook.Sheets[sheetName];

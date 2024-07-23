@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mi Página HTML</title>
+</head>
+<body>
+  <h1>Resultados en Tiempo Real</h1>
+  <div id="result"></div>
+
+  <script>
+    const eventSource = new EventSource('/massive');
+
+    eventSource.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      if (data.success) {
+        document.getElementById('result').innerHTML = `<p>Datos: ${data.data}</p>`;
+      } else {
+        document.getElementById('result').innerHTML = `<p>Error: ${data.error}</p>`;
+      }
+    };
+
+    eventSource.onerror = function() {
+      document.getElementById('result').innerHTML = '<p>Error en la conexión</p>';
+    };
+  </script>
+</body>
+</html>
+
